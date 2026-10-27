@@ -1,11 +1,24 @@
 'use client'
-import { useState } from "react";
-import data from "../data/data";
+import { useEffect, useState } from "react";
+import { getData } from "../utils/getData";
+import type { Product } from "../utils/types";
 
 function Main() {
     const[search, setSearch] = useState(""); 
-    const[items, setItems] = useState(data);
-    const[filteredItems, setFilteredItems] = useState(data);
+    const[items, setItems] = useState<Product[]>([]);
+    const[filteredItems, setFilteredItems] = useState<Product[]>([]);
+
+    useEffect(() => {
+
+        const func = async () => {
+            const data = await getData();
+            setItems(data);
+            setFilteredItems(data);
+        }
+
+        func();
+       
+    }, []);
 
     const handleSearch = (string:string) => {
         setSearch(string);
